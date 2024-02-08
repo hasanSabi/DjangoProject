@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>Add Subject</h2>
+    <form method="post" action="{% url 'add_subject_save' %}">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="subject_name">Subject Name:</label>
+        <input type="text" class="form-control" id="subject_name" name="subject_name" required>
+      </div>
+      <div class="form-group">
+        <label for="course_id">Select Course:</label>
+        <select class="form-control" id="course_id" name="course_id" required>
+          {% for course in courses %}
+            <option value="{{ course.id }}">{{ course.course_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="staff_id">Select Staff:</label>
+        <select class="form-control" id="staff_id" name="staff_id" required>
+          {% for staff in staffs %}
+            <option value="{{ staff.id }}">{{ staff.first_name }} {{ staff.last_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <button type="submit" class="btn btn-dark mt-3">Add Subject</button>
+    </form>
+  </div>
+{% endblock %}

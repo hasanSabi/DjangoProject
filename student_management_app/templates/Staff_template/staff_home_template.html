@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+
+<style>
+  body {
+    background-color: #323232;
+  }
+
+  .card {
+    background-color: #323232;
+    color: white;
+    border-color: #DDD0C8
+  }
+
+  .btn-dark {
+    background-color: #DDD0C8 !important; /* Dark Grey */
+    color:  #323232 !important; /* Dark Grey */
+    border-color:  #323232
+  }
+
+  .list-group-item {
+    background-color: #323232; /* Dark Grey */
+    color: white; /* Dark Grey */
+  }
+
+  .list-group-item a {
+    color: white !important;
+  }
+
+  .logout-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+
+  .table {
+    color: white;
+
+  }
+
+  .notification-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color:#DDD0C8;
+      font-size: 25px;
+    }
+
+
+</style>
+
+
+<div class="container mt-3">
+  <div class="row">
+     <div class="col-md-12">
+       <div class="card">
+         <div class="card-body">
+           <h3 class="card-title">{{ user.first_name }} {{ user.last_name }}</h3>
+
+           <p class="card-text">Email: {{ user.email }}</p>
+           <p class="card-text">Address: {{ staff.address }}</p>
+           
+           <a href="{% url 'staff_profile' %}" class="btn btn-dark">View Profile</a>
+           <a href="{% url 'logout_user' %}" class="btn btn-dark logout-button">Logout</a>
+
+         </div>
+       </div>
+     </div>
+   </div>
+
+    
+    <div class="row mt-2">
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Total Students</h4>
+            <h4>{{ students_count }}</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Total Subjects</h4>
+            <h4>{{ subject_count }}</h4>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Leave Requests</h4>
+            <h4>{{ leave_count }}</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  
+  <div class="card mt-2">
+    <div class="card-body">
+    <ul class="list-group">
+      <!-- Add link to Add Staff -->
+      <li class="list-group-item"><a href="{% url 'staff_take_attendance' %}">Take Attendance</a></li>
+      <li class="list-group-item"><a href="{% url 'staff_add_result' %}">Add Results</a></li>
+      <li class="list-group-item"><a href="{% url 'staff_profile' %}">View Profile</a></li>
+      <li class="list-group-item"><a href="{% url 'staff_apply_leave' %}">Apply for Leave</a></li>
+      <li class="list-group-item"><a href="{% url 'staff_feedback' %}">Provide Feedback</a></li>
+    </ul>
+   </div>
+  </div>
+
+
+  <div class="card mt-2">
+    <div class="card-body">
+      <h4 class="card-title">Notices</h4>
+      <div class="notification-icon" data-toggle="modal" data-target="#notificationModal">
+        <i class="fa fa-bell"></i>
+      </div>
+       {% if recent_notifications %}
+       <ul class="list-group">
+         {% for notification in recent_notifications %}
+           <li class="list-group-item"><p>{{ forloop.counter }} - {{ notification.message }}</p></li>
+         {% endfor %}
+       </ul>
+       {% else %}
+       <p>No recent notifications.</p>
+       {% endif %}
+    </div>
+   </div>
+
+    
+    <div class="row mt-2">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Subjectwise Classes</h5>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Subject</th>
+                  <th> Total Classes Held</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for subject in subject_data %}
+                  <tr>
+                    <td>{{ subject.0 }}</td>
+                    <td>{{ subject.1 }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Students Attendance</h5>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Student</th>
+                  <th>Present</th>
+                  <th>Absent</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for student, present, absent in student_data %}
+                  <tr>
+                    <td>{{ student }}</td>
+                    <td>{{ present }}</td>
+                    <td>{{ absent }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+
+  <!-- Notification Modal -->
+  <div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="notificationModalLabel">Notices</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Display all notifications here -->
+          {% for notification in notifications %}
+            <div>{{ notification.message }}</div>
+          {% endfor %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+{% endblock %}
+

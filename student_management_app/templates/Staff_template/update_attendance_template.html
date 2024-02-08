@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <h4>Attendance Dates : {{ subject_model.subject_name }}</h4>
+            <form method="post" action="{% url 'get_attendance_student' %}" class="mt-3">
+             {% csrf_token %}
+              
+            <div class="form-group">
+              <label for="attendance_date">Select Attendance Date:</label>
+             <select class="form-control" id="attendance_date" name="attendance_date" required>
+             {% for data in list_data %}
+            <option value="{{ data.id }}">{{ data.attendance_date }}</option>
+            {% endfor %}
+             </select>
+            </div>
+            <div class="form-group">
+              <input type="hidden" id="subject_id" name="subject_id" value="{{ subject_model.id }}"> 
+            </div>
+
+            <button type="submit" class="btn btn-primary">Get Attendance Data</button>
+            </form>
+        </div>
+    </div>
+   </div>  
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="container mt-5">
+    <h2>Manage Sessions</h2>
+    <a href="{% url 'add_session' %}" class="btn btn-dark mb-3">Add Session</a>
+
+    <table class="table mt-3">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Start Year</th>
+          <th scope="col">End Year</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for session_year in session_years %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ session_year.session_start_year }}</td>
+            <td>{{ session_year.session_end_year }}</td>
+            <td>
+              <a href="{% url 'edit_session' session_year.id %}" class="btn btn-dark btn-sm">Edit</a>
+              <a href="{% url 'delete_session' session_year.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="card-header">
+         <h3>Results</h3>
+        </div>
+        {% if student_result %}
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Subject</th>
+                <th>Assignment Marks</th>
+                <th>Exam Marks</th>
+                <th>Total Marks</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for result in student_result %}
+                <tr>
+                  <td>{{ result.subject_id.subject_name }}</td>
+                  <td>{{ result.subject_assignment_marks }}</td>
+                  <td>{{ result.subject_exam_marks }}</td>
+                  <td>{{ result.total_marks }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p>No results available for the student.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

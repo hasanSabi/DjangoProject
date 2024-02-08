@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>Manage Staff</h2>
+    <a href="{% url 'add_staff' %}" class="btn btn-dark">Add Staff</a>
+    <table class="table mt-3">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Email</th>
+          <th scope="col">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for staff in staffs %}
+          <tr>
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ staff.admin.first_name }} {{ staff.admin.last_name }}</td>
+            <td>{{ staff.admin.email }}</td>
+            <td>
+              <a href="{% url 'edit_staff' staff.admin.id %}" class="btn btn-dark btn-sm">Edit</a>
+              <a href="{% url 'delete_staff' staff.admin.id %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

@@ -1,0 +1,182 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<style>
+  body {
+    background-color: #323232;
+    color: white /* Beige */
+  }
+
+  .card {
+    background-color: #323232;
+    color: white;
+    border-color: #DDD0C8
+  }
+
+  .btn-dark {
+    background-color: #DDD0C8 !important; /* Dark Grey */
+    color:  #323232 !important; /* Dark Grey */
+    border-color:  #323232
+  }
+
+  .list-group-item {
+    background-color: #323232; /* Dark Grey */
+    color: white; /* Dark Grey */
+  }
+
+  .list-group-item a {
+    color: white !important;
+  }
+
+  .logout-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+</style>
+
+<a href="{% url 'logout_user' %}" class="btn btn-dark logout-button">Logout</a>
+
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="mb-4">Admin Dashboard</h2>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Total Students</h5>
+            <p class="card-text">{{ all_student_count }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Total Courses</h5>
+            <p class="card-text">{{ course_count }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Total Subjects</h5>
+            <p class="card-text">{{ subject_count }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Total Staff</h5>
+            <p class="card-text">{{ staff_count }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+    <div class="row mt-4">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Courses Overview</h5>
+            <ul class="list-group">
+              {% for course in course_data %}
+              {% if forloop.counter <= 4 %}
+               <li class="list-group-item">
+                  <h5>{{ course.0 }}</h5>  Subjects: {{ course.1 }}, Students: {{ course.2 }}
+                </li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">Subjects Overview</h5>
+            <ul class="list-group">
+              {% for subject in subject_data %}
+                {% if forloop.counter <= 7 %}
+                <li class="list-group-item">
+                  {{ subject.0 }} - Students: {{ subject.1 }}
+                </li>
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+
+        <br>
+    <div class="card">
+      <div class="card-body">
+        <ul class="list-group">
+          <!-- Add link to Add Staff -->
+          <li class="list-group-item"><a href="{% url 'manage_staff' %}">Manage Staff</a></li>
+          <li class="list-group-item"><a href="{% url 'manage_course' %}">Manage Course</a></li>
+          <li class="list-group-item"><a href="{% url 'manage_student' %}">Manage Student</a></li>
+          <li class="list-group-item"><a href="{% url 'manage_session' %}">Manage Session</a></li>
+          <li class="list-group-item"><a href="{% url 'manage_subject' %}">Manage Subject</a></li>
+          <li class="list-group-item"><a href="{% url 'admin_view_attendance' %}">View Attendance</a></li>
+          <li class="list-group-item"><a href="{% url 'admin_profile' %}">View Profile</a></li>
+          <li class="list-group-item"><a href="{% url 'send_notification' %}">Send Notification</a></li>
+        </ul>
+      </div>
+    </div>
+              
+        <div class="row mt-3">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Student Leaves</h5>
+                <p>Manage student leave requests.</p>
+                <a href="{% url 'student_leave_view' %}" class="btn btn-dark">View</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Staff Leaves</h5>
+                <p>Approve or reject staff leave requests.</p>
+                <a href="{% url 'staff_leave_view' %}" class="btn btn-dark">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+   
+
+
+        <div class="row mt-4">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Student Feedback</h5>
+                <a href="{% url 'student_feedback_message' %}" class="btn btn-dark">View Feedback</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">Staff Feedback</h5>
+                <a href="{% url 'staff_feedback_message' %}" class="btn btn-dark">View Feedback</a>
+              </div>
+            </div>
+          </div>
+        </div>
+     
+    </div>
+
+    {% endblock %}
+

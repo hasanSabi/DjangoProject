@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<style>
+  /* Add this style to your CSS file or in a <style> block in the head section of your HTML document */
+  .readonly-input {
+      border: none;
+      outline: none;
+      /* Additional styles if needed */
+      background-color: transparent;
+      /* Set other styles as needed */
+  }
+
+  </style>
+
+  <div class="container mt-4"> 
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="card">
+          <div class="card-header">
+          <h2>Mark Attendance</h2>
+           {% if list_data %}
+          <p>Date: {{ attendance.attendance_date }} | Subject: {{ subject_model.subject_name }}</p>
+          </div>
+            <form method="post" action="{% url 'save_attendance_data' %}">
+              {% csrf_token %}
+            
+              <input type="hidden" name="subject_id" value="{{ subject_model.id }}">
+              <input type="hidden" name="attendance_date" value="{{ attendance.attendance_date }}">
+              <input type="hidden" name="session_year_id" value="{{ attendance.session_year_id.id }}">
+              {{ formset.management_form }}
+      
+              <table class="table table-bordered mt-3">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for form in formset %}
+                    <tr>
+                      <td>
+                        {{form.name}}
+                        {{form.student_id}}
+                      </td>
+                      <td>{{ form.status }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+      
+              <button type="submit" class="btn btn-dark">Submit Attendance</button>
+            </form>
+    {% else %}
+      <p>No attendance data available.</p>
+    {% endif %}
+   </div>
+ </div>
+</div>
+</div>
+{% endblock %}
+

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <h2>Feedback</h2>
+        <form method="post" action="{% url 'student_feedback_save' %}">
+          {% csrf_token %}
+          <div class="form-group">
+            <label for="feedback_message">Feedback Message:</label>
+            <textarea class="form-control" id="feedback_message" name="feedback_message" rows="4" required></textarea>
+          </div>
+          <button type="submit" class="btn btn-dark">Send Feedback</button>
+        </form>
+
+        <hr>
+
+        <h2>Your Feedbacks</h2>
+        <ul class="list-group">
+          {% for feedback in feedback_data %}
+            <li class="list-group-item">
+              <strong>Feedback:</strong> {{ feedback.feedback }}
+              {% if feedback.feedback_reply %}
+                <br>
+                <strong>Reply:</strong> {{ feedback.feedback_reply }}
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>Student Feedback</h2>
+    <table class="table mt-3">
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Student</th>
+          <th scope="col">Feedback</th>
+          <th scope="col">Reply</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for feedback in feedbacks %}
+          <tr>
+            <td>{{ feedback.id }}</td>
+            <td>{{ feedback.student_id.admin.first_name }} {{ feedback.student_id.admin.last_name }}</td>
+            <td>{{ feedback.feedback }}</td>
+            <td>{{ feedback.feedback_reply|default:"Not replied yet" }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

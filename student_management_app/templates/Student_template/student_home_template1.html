@@ -1,0 +1,161 @@
+<!-- student_home_template.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <style>
+    body {
+      background-color: #475d62 !important; /* Beige */
+    }
+
+    .card {
+      background-color: #475d62;
+      color: white;
+      border-color: #DDD0C8;
+    }
+
+   .btn-dark {
+     background-color: #DDD0C8 !important; /* Dark Grey */
+     color:  #323232 !important; /* Dark Grey */
+     border-color:  #323232;
+   }
+ 
+    .list-group-item {
+      background-color: #475d62; /* Dark Grey */
+     /*  border-color: #DDD0C8; Dark Grey */
+    }
+
+    .list-group-item a, p {
+      color: white !important;
+    }
+
+    .logout-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    .notification-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      color:#DDD0C8;
+      font-size: 25px;
+    }
+
+
+
+  </style>
+
+
+<div class="container mt-4">
+  {% if student.profile_pic %}
+      <div class="rounded-circle overflow-hidden mx-auto" style="width: 150px; height: 150px;">
+          <img src="{{ student.profile_pic.url }}" alt="{{ user.name }}" class="w-100 h-100">
+      </div>
+  {% else %}
+      <!-- If no profile picture is available, you can display a default image or a placeholder -->
+      <div class="rounded-circle overflow-hidden mx-auto" style="width: 150px; height: 150px; background-color: #ccc;">
+          <!-- Default image or placeholder content goes here -->
+      </div>
+  {% endif %}
+  <!-- Other student details... -->
+</div>
+
+<div class="container text-center mt-3">
+   <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">{{ user.first_name }} {{ user.last_name }}</h3>
+
+            <!-- Display Student Information -->
+            <p class="card-text">Email: {{ user.email }}</p>
+            <p class="card-text">Address: {{ student.address }}</p>
+            
+            <a href="{% url 'student_profile' %}" class="btn btn-dark">View Profile</a>
+            <a href="{% url 'logout_user' %}" class="btn btn-dark logout-button">Logout</a>
+
+          </div>
+        </div>
+
+       <div class="row mt-2">
+        {% for subject in subjects %}
+          <div class="col-md-4">
+            <div class="card mb-2" >
+              <div class="card-body">
+                <h5>{{ subject.subject_name }}</h5>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+
+        <div class="card">
+          <div class="card-body">
+            <!-- Links to Student Tasks -->
+            <h3 class="card-title">Important Links</h3>
+            <ul class="list-group">
+              <li class="list-group-item"><a href="{% url 'student_view_attendance' %}">View Attendance</a></li>
+              <li class="list-group-item"><a href="{% url 'student_view_result' %}">View Results</a></li>
+              <li class="list-group-item"><a href="{% url 'student_apply_leave' %}">Apply for Leave</a></li>
+              <li class="list-group-item"><a href="{% url 'student_feedback' %}">Provide Feedback</a></li>
+              <!-- Add more links as needed -->
+            </ul>
+          </div>
+        </div>
+
+        <div class="card mt-2">
+          <div class="card-body">
+            <h3 class="card-title">Important Notices</h3>
+            <div class="notification-icon" data-toggle="modal" data-target="#notificationModal">
+              <i class="fa fa-bell"></i>
+            </div>
+             {% if recent_notifications %}
+             <ul class="list-group">
+               {% for notification in recent_notifications %}
+                 <li class="list-group-item"><p>{{ forloop.counter }} - {{ notification.message }}</p></li>
+               {% endfor %}
+             </ul>
+             {% else %}
+             <p>No recent notifications.</p>
+             {% endif %}
+         </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+
+
+
+
+  <!-- Notification Modal -->
+  <div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="notificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="notificationModalLabel">Notices</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Display all notifications here -->
+          {% for notification in notifications %}
+            <div>{{ notification.message }}</div>
+          {% endfor %}
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+{% endblock %}
+
+
+

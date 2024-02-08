@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-3">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <div class="card-header">
+          <h3>Attendance Status: {{ subject_obj.subject_name }}</h3>
+          <p>From: {{start_date}} To: {{end_date}} </p>
+        </div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for report in attendance_reports %}
+              <tr>
+                <td>{{ report.attendance_id.attendance_date }}</td>
+                <td>{% if report.status %}Present{% else %}Absent{% endif %}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

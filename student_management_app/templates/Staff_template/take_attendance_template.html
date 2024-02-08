@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+  <div class="container mt-4">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <div class="card">
+          <div class="card-header">
+            <h4>Take Attendance</h4>
+          </div>
+          <div class="card-body">
+            <form  method="post" action="{% url 'get_attendance_dates' %}">
+              {% csrf_token %}
+             
+              <div class="form-group">
+                <label for="session_year">Select Session Year:</label>
+                <select class="form-control" id="session_year_id" name="session_year_id" required>
+                    {% for session_year in session_years %}
+                        <option value="{{ session_year.id }}">{{ session_year.session_start_year }} - {{ session_year.session_end_year }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+
+              <div class="form-group">
+                  <label for="subject">Select Subject:</label>
+                  <select class="form-control" id="subject_id" name="subject_id" required>
+                      {% for subject in subjects %}
+                          <option value="{{ subject.id }}">{{ subject.subject_name }}</option>
+                      {% endfor %}
+                  </select>
+              </div>
+      
+
+              
+              
+              <div class="form-group">
+                <label for="attendance_date">Select Attendance Date:</label>
+                <input type="date" class="form-control" id="attendance_date" name="attendance_date" required>
+              </div>
+
+              <button type="submit"  class="btn btn-dark">Get Student List</button>
+          </form>
+        
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

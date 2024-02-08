@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h2>Edit Session</h2>
+    <form method="post" action="{% url 'edit_session_save' %}">
+      {% csrf_token %}
+      <input type="hidden" name="session_id" value="{{ session_year.id }}">
+      <div class="form-group">
+        <label for="session_start_year">Start Year:</label>
+        <input type="text" class="form-control" id="session_start_year" name="session_start_year" value="{{ session_year.session_start_year }}" required>
+      </div>
+      <div class="form-group">
+        <label for="session_end_year">End Year:</label>
+        <input type="text" class="form-control" id="session_end_year" name="session_end_year" value="{{ session_year.session_end_year }}" required>
+      </div>
+      <button type="submit" class="btn btn-dark mt-3">Save Changes</button>
+    </form>
+  </div>
+{% endblock %}
