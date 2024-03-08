@@ -122,14 +122,18 @@
 <div class="col-12">
 {% for message in messages %}
 {% if message.tags == "error" %}
-<div class="alert alert-danger alert-dismissible fade show" role="alert" style="margin-top: 10px;">
-	<b>{{ message }}</b>
-	<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+	<strong>{{ message }}</strong>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	<span aria-hidden="true">×</span>
+	</button>
 </div>
 {% endif %}
 {% endfor %}
 </div>
 {% endif %}
+</form>
+</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
 {% endblock content %}

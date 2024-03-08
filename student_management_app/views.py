@@ -78,7 +78,7 @@ def doRegistration(request):
 	user_type = get_user_type_from_email(email_id)
 
 	if user_type is None:
-		messages.error(request, "Please use valid format for the email id: '<username>.<staff|student|hod>@<college_domain>'")
+		messages.error(request, "Invalid format for the email, 'username.staff/student/hod @college_domain'")
 		return render(request, 'registration.html')
 
 	username = email_id.split('@')[0].split('.')[0]

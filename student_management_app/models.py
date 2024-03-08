@@ -173,6 +173,16 @@ class StudentResult(models.Model):
 	objects = models.Manager()
 
 
+class Syllabus(models.Model):
+    id = models.AutoField(primary_key=True)
+    subject = models.ForeignKey(Subjects, on_delete=models.CASCADE)
+    topics = models.TextField()
+
+    def __str__(self):
+        return f"Syllabus for {self.subject}"
+
+
+
 #Creating Django Signals
 @receiver(post_save, sender=CustomUser)
 

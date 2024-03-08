@@ -1,0 +1,38 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="card-title">{{ subject.subject_name }} Syllabus</h2>
+                    {% if syllabus %}
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Unit No.</th>
+                                    <th scope="col">Content of Unit</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for topic in syllabus %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ topic.topics }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>Syllabus is not available for this subject.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

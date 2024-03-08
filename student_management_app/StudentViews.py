@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
 from django.urls import reverse
 import datetime
-from .models import CustomUser, Staffs, Courses, Subjects, Students, Attendance, AttendanceReport, LeaveReportStudent, FeedBackStudent, StudentResult, SessionYearModel, NotificationStudent
+from .models import CustomUser, Staffs, Courses, Subjects, Students, Attendance, AttendanceReport, LeaveReportStudent, FeedBackStudent, StudentResult, SessionYearModel, NotificationStudent, Syllabus
 
 
 # views.py
@@ -108,9 +108,6 @@ def student_view_attendance(request):
     }
 
     return render(request, "student_template/student_view_attendance.html", context)
-
-
-
 
 
 
@@ -284,3 +281,14 @@ def student_profile_update_page(request):
     }
 
     return render(request, 'student_template/student_profile_update.html', context)
+
+
+
+def subject_syllabus(request, subject_id):
+    subject = Subjects.objects.get(id=subject_id)
+    syllabus = Syllabus.objects.filter(subject_id=subject)
+    context = {
+        'subject': subject,
+        'syllabus': syllabus,
+    }
+    return render(request, 'student_template/subject_syllabus.html', context)

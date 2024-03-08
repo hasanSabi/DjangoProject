@@ -25,6 +25,7 @@ urlpatterns = [
 	path('student_profile_update/', StudentViews.student_profile_update, name="student_profile_update"),
 	path('student_view_result/', StudentViews.student_view_result, name="student_view_result"),
     path('student_profile_update_page/', StudentViews.student_profile_update_page, name='student_profile_update_page'),
+    path('subject/<int:subject_id>/syllabus/', StudentViews.subject_syllabus, name='subject_syllabus'),
 
 
 	# URLS for Staff

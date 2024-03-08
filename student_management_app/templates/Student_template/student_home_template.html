@@ -4,7 +4,7 @@
 {% block content %}
 <style>
   body {
-    background-color: #323232 !important; /* Beige */
+    background-color: #323232 !important; 
     overflow-x: hidden;
   }
 
@@ -15,7 +15,7 @@
   }
 
   .list-group-item {
-    background-color: #323232; /* Dark Grey */
+    background-color: #323232;
   }
 
   .list-group-item p {
@@ -41,18 +41,25 @@
     background-color: #272727;
     padding-top: 20px;
     overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
   }
 
   .sidenav a {
-    padding: 8px 8px 8px 32px;
+    padding: 7px 8px 7px 8px;
     text-decoration: none;
-    font-size: 18px;
+    margin: 0px 16px;
+    border: 2px solid transparent;
+    border-radius: 6px 6px;
+    font-size: 16px;
     color: white;
     display: block;
   }
 
   .sidenav a:hover {
     color: #DDD0C8;
+    background-color: #1a1a1a;
+   
   }
 
   .container-main {
@@ -61,10 +68,12 @@
   }
 
   .profile-pic {
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
-    margin: 40px auto;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
     display: block;
   }
 
@@ -73,8 +82,47 @@
     display: block;
     position: absolute;
     bottom: 20px;
-    width: 100%;
+    width: 35%;
   }
+  .profile-header {
+    padding: 8px 8px 8px 8px;
+    text-decoration: none;
+    font-size: 16px;
+    color: white ;
+    display: block;
+    text-align: center;
+  }
+
+  .profile-header p {
+    margin:0px 16px;
+  }
+  .profile-header-email {
+    font-size: 12px;
+  }
+
+  .sidelinks {
+    background-color: #212020;
+    padding: 5px 0px;
+    flex-grow: 1;
+  }
+
+
+  .card-link {
+   color: inherit; /* Inherits the color from the parent element */
+   text-decoration: none; /* Removes underline from the link */
+  }
+
+
+  .subject-card {
+   background-color: #323232; /* Set initial background color */
+   transition: background-color 0.3s; /* Smooth transition effect */
+  }
+
+  .subject-card:hover {
+   background-color: #212020; /* Change background color on hover */
+  }
+
+
 </style>
 
 <div class="container-fluid">
@@ -82,56 +130,29 @@
     {% if student.profile_pic %}
     <img src="{{ student.profile_pic.url }}" alt="{{ user.name }}" class="profile-pic">
     {% endif %}
+    <div class="profile-header">
+      <p>{{ user.first_name }} {{ user.last_name }}</p>
+      <p class="profile-header-email">{{ user.email }}</p>
+   </div>
+    <div class="sidelinks">
     <a href="{% url 'student_profile' %}">View Profile</a>
     <a href="{% url 'student_view_attendance' %}">View Attendance</a>
     <a href="{% url 'student_view_result' %}">View Results</a>
     <a href="{% url 'student_apply_leave' %}">Apply for Leave</a>
     <a href="{% url 'student_feedback' %}">Provide Feedback</a>
-    <!-- Add more links as needed -->
+   
+   
     <a href="{% url 'logout_user' %}" class="logout-button">Logout</a>
   </div>
+  </div>
 
-  <div class="container-fluid mt-4 ml-5 container-main">
-    {% if student.profile_pic %}
-      <div class="rounded-circle overflow-hidden mx-auto" style="width: 150px; height: 150px;">
-        <img src="{{ student.profile_pic.url }}" alt="{{ user.name }}" class="w-100 h-100">
-      </div>
-    {% else %}
-      <div class="rounded-circle overflow-hidden mx-auto" style="width: 150px; height: 150px; background-color: #ccc;">
-        <!-- Default image or placeholder content goes here -->
-      </div>
-    {% endif %}
-    <!-- Other student details... -->
-
+  <div class="container-fluid mt-2 ml-5 container-main">
     <div class="container text-center mt-3">
       <div class="row">
         <div class="col-md-12">
-          <div class="card">
-            <div class="card-body">
-              <h3 class="card-title">{{ user.first_name }} {{ user.last_name }}</h3>
-              <!-- Display Student Information -->
-              <p class="card-text">Email: {{ user.email }}</p>
-              <p class="card-text">Address: {{ student.address }}</p>
-
-            </div>
-          </div>
-
-          <div class="row mt-2">
-            {% for subject in subjects %}
-              <div class="col-md-4">
-                <div class="card mb-2" >
-                  <div class="card-body">
-                    <h5>{{ subject.subject_name }}</h5>
-                  </div>
-                </div>
-              </div>
-            {% endfor %}
-          </div>
-
-
           <div class="card mt-2">
             <div class="card-body">
-              <h3 class="card-title">Important Notices</h3>
+              <h3 class="card-title">Notices</h3>
               <div class="notification-icon" data-toggle="modal" data-target="#notificationModal">
                 <i class="fa fa-bell"></i>
               </div>
@@ -146,6 +167,22 @@
               {% endif %}
             </div>
           </div>
+
+
+          <div class="row mt-2">
+            {% for subject in subjects %}
+              <div class="col-md-4">
+                <a href="{% url 'subject_syllabus' subject_id=subject.id %}" class="card-link">
+                  <div class="card mb-2" >
+                    <div class="card-body subject-card">
+                      <h5 class="subject-title">{{ subject.subject_name }}</h5>
+                    </div>
+                  </div>
+                </a>
+              </div>
+            {% endfor %}
+          </div>
+
         </div>
       </div>
     </div>
@@ -162,7 +199,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <!-- Display all notifications here -->
+
             {% for notification in notifications %}
               <div>{{ notification.message }}</div>
             {% endfor %}
@@ -177,3 +214,27 @@
 </div>
 
 {% endblock %}
+
+
+
+    <!-- {% if student.profile_pic %}
+      <div class="rounded-circle overflow-hidden mx-auto" style="width: 150px; height: 150px;">
+        <img src="{{ student.profile_pic.url }}" alt="{{ user.name }}" class="w-100 h-100">
+      </div>
+    {% else %}
+      <div class="rounded-circle overflow-hidden mx-auto" style="width: 150px; height: 150px; background-color: #ccc;">
+        Default image or placeholder content goes here
+      </div>
+    {% endif %}
+    Other student details... -->
+
+             <!--
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title">{{ user.first_name }} {{ user.last_name }}</h3>
+               Display Student Information 
+              <p class="card-text">Email: {{ user.email }}</p>
+              <p class="card-text">Address: {{ student.address }}</p>
+
+            </div>
+          </div>-->
