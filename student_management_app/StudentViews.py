@@ -9,18 +9,17 @@ from .models import CustomUser, Staffs, Courses, Subjects, Students, Attendance,
 
 # views.py
 
-
 def student_home(request):
 	# Getting Logged in Student Data
 	student = Students.objects.get(admin=request.user.id)
 	recent_notifications = NotificationStudent.objects.filter(student_id=student).order_by('-created_at')[:3]
-	
 	# Getting Course Enrolled of LoggedIn Student
 	course = student.course_id 
 	user = CustomUser.objects.get(id=request.user.id)
 	notifications = NotificationStudent.objects.filter(student_id=student)
 	# Getting the Subjects of Course Enrolled
-	subjects = Subjects.objects.filter(course_id=course) 
+	subjects = Subjects.objects.filter(course_id=course)
+
 	context = {
 		"subjects": subjects,
 		"user": user,
@@ -29,6 +28,7 @@ def student_home(request):
 		"recent_notifications": recent_notifications,
 	}
 	return render(request, "student_template/student_home_template.html", context)
+
 
 
 def student_profile(request):
@@ -158,10 +158,12 @@ def student_view_attendance_post(request):
 def student_apply_leave(request):
 	student_obj = Students.objects.get(admin=request.user.id)
 	leave_data = LeaveReportStudent.objects.filter(student_id=student_obj)
+
 	context = {
 		"leave_data": leave_data
 	}
 	return render(request, 'student_template/student_apply_leave.html', context)
+
 
 
 def student_apply_leave_save(request):
@@ -186,13 +188,16 @@ def student_apply_leave_save(request):
 			return redirect('student_apply_leave')
 
 
+
 def student_feedback(request):
 	student_obj = Students.objects.get(admin=request.user.id)
 	feedback_data = FeedBackStudent.objects.filter(student_id=student_obj)
+
 	context = {
 		"feedback_data": feedback_data
 	}
 	return render(request, 'student_template/student_feedback.html', context)
+
 
 
 def student_feedback_save(request):
@@ -215,6 +220,7 @@ def student_feedback_save(request):
 			return redirect('student_feedback')
 
 
+
 def student_profile(request):
 	user = CustomUser.objects.get(id=request.user.id)
 	student = Students.objects.get(admin=user)
@@ -224,6 +230,7 @@ def student_profile(request):
 		"student": student
 	}
 	return render(request, 'student_template/student_profile.html', context)
+
 
 
 def student_profile_update(request):
@@ -255,6 +262,7 @@ def student_profile_update(request):
 			return redirect('student_profile')
 
 
+
 def student_view_result(request):
     student = Students.objects.get(admin=request.user.id)
     student_results = StudentResult.objects.filter(student_id=student.id)
@@ -268,6 +276,7 @@ def student_view_result(request):
     }
 
     return render(request, "student_template/student_view_result.html", context)
+
 
 
 def student_profile_update_page(request):

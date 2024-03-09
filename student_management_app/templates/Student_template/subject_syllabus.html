@@ -1,4 +1,3 @@
-
 {% extends 'base.html' %}
 
 {% block content %}
@@ -8,7 +7,8 @@
         <div class="col-md-8 offset-md-2">
             <div class="card">
                 <div class="card-body">
-                    <h2 class="card-title">{{ subject.subject_name }} Syllabus</h2>
+                    <h2 class="card-title">{{ subject.subject_name }}</h2>
+                    <h5 class="card-title">Name of Faculty: {{ subject.staff_id.first_name|capfirst }} {{ subject.staff_id.last_name|capfirst }}</h5>
                     {% if syllabus %}
                         <table class="table table-bordered">
                             <thead>
