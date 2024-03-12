@@ -21,11 +21,13 @@ def student_home(request):
 	subjects = Subjects.objects.filter(course_id=course)
 
 	context = {
+		"course": course,
 		"subjects": subjects,
 		"user": user,
 		"student": student,
 		"notifications": notifications,
 		"recent_notifications": recent_notifications,
+		"is_student_dashboard": True,
 	}
 	return render(request, "student_template/student_home_template.html", context)
 
